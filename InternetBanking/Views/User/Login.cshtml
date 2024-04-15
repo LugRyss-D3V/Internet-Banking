@@ -1,0 +1,65 @@
+﻿﻿@using InternetBanking.Core.Application.ViewModels.User
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<body>
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+        <div class="row border rounded-5 p-3 bg-white shadow box-area">
+
+            <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #fb0404;">
+                <div class="featured-image mb-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Banco_santander_bank.JPG" class="img-fluid" style="background: #fb0404;">
+                </div>
+                <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Banca Online</p>
+                <div>
+                    <small class="text-white text-wrap text-center" style="width: 17rem; font-family: 'Courier New', Courier, monospace; font-size: 1.2em;">
+                        Tú decides cómo relacionarte con tu banco, sin restricciones de tiempo ni lugar. Te lo hacemos fácil.
+                    </small>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 right-box">
+                <div class="row align-items-center">
+                    <div class="header-text mb-4">
+                        <h2 class="text-black">Iniciar sesión</h2>
+                        <p class ="text-black">Estamos felices de tenerte de regreso.</p>
+                    </div>
+                    <form asp-action="Login">
+                        <div class="input-group mb-3">
+                            <input type="text" asp-for="UserName" class="form-control form-control-lg bg-light fs-6" placeholder="Nombre Usuario">
+                        </div>
+                        <div class="input-group mb-1">
+                            <input type="password" asp-for="Password" class="form-control form-control-lg bg-light fs-6" placeholder="Contraseña">
+                        </div>
+                        @if (Model.HasError)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show text-black" role="alert">
+                                <p>@Model.Error</p>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        <div class="input-group mb-5 d-flex justify-content-between">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="formCheck">
+                                <label for="formCheck" class="form-check-label text-secondary"><small class="text-black">Recordar contraseña </small></label>
+                            </div>
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Iniciar sesion</button>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <small class="text-black">¿No tienes cuenta? puede ir a nuestra sucursal más cercana.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

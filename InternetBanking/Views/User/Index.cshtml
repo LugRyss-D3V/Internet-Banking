@@ -1,0 +1,191 @@
+﻿@model IEnumerable<InternetBanking.Core.Application.ViewModels.User.UserViewModel>
+@using InternetBanking.Core.Application.Dtos.Account.Response;
+@using InternetBanking.Core.Application.Helpers;
+
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var logged = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+}
+
+@using InternetBanking.Core.Application.Enums
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="p-3">
+    <div class="row">
+        <div class="mx-auto">
+            <div class="container pt-4 p-3 bg-dark rounded-3">
+                <div class="d-flex justify-content-between mb-3 align-items-center text-dark">
+                    <h1 class="text-white">Usuarios</h1>
+                    <a asp-controller="User" asp-action="Register" class="btn btn-lg btn-outline-primary mt-2 text-white mt-2 mb-2">Registrar Usuario</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="px-2 py-2 my-2 text-center">
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-2 text-dark">
+            Aquí puedes administrar los usuarios registrados en el sistema y registrar uno nuevo.
+        </p>
+    </div>
+</div>
+
+<div class="container container-content text-center py-4">
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <h4>Administradores</h4>
+            <table id="table-invited" class=" table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Usuario</th>
+                        <th class="text-center" scope="col"></th>
+                        <th class="text-center" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        if (user.Roles.Any(role => role == "Administrator"))
+                        {
+                            <tr @if (user.Status)
+                            {
+                                <text>class="table-active"</text>
+                            }>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.FirstName) @Html.DisplayFor(modelItem => user.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.UserName)
+                                </td>
+                                @if(user.Id != logged.Id)
+                                {
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-link toggle-status p-0" data-user-id="@user.Id" data-action="toggle" data-bs-toggle="modal" data-bs-target="#statusChangeModal">
+                                            @if (user.Status)
+                                            {
+                                                <i class="fas fa-unlock"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-lock"></i>
+                                            }
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-link p-0"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                }else{
+                                    <td></td>
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h4>Clientes</h4>
+            <table id="table-second" class=" table table-dark table-hover ">
+                <thead>
+                    <tr>
+                        <th scope="col">Cedula</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Usuario</th>
+                        <th class="text-center" scope="col"></th>
+                        <th class="text-center" scope="col"></th>
+                        <th class="text-center" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        if (user.Roles.Any(role => role == "Client"))
+                        {
+                            <tr @if (user.Status)
+                            {
+                                <text>class="table-active"</text>
+                            }>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.PersonalId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.FirstName) @Html.DisplayFor(modelItem => user.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => user.UserName)
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-link toggle-status p-0" data-user-id="@user.Id" data-action="toggle" data-bs-toggle="modal" data-bs-target="#statusChangeModal">
+                                        @if (user.Status)
+                                        {
+                                            <i class="fas fa-unlock"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-lock"></i>
+                                        }
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-link p-0"><i class="fas fa-edit"></i></a>
+                                </td>
+                                <td class="text-center">
+                                    <a asp-action="Index" asp-controller="Products" asp-route-id="@user.Id" class="btn btn-link p-0"><i class="fas fa-store"></i></a>
+                                </td>
+                            </tr>
+                        }  
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="statusChangeModal" tabindex="-1" aria-labelledby="statusChangeModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Internet Banking</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                <a id="changeStatusLink" class="btn btn-primary">
+                    Confirmar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButtons = document.querySelectorAll(".toggle-status");
+
+        toggleButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const userId = this.getAttribute("data-user-id");
+                const action = this.getAttribute("data-action");
+                const modal = new bootstrap.Modal(document.getElementById('statusChangeModal'));
+                const modalMessage = document.getElementById('modalMessage');
+                const changeStatusLink = document.getElementById('changeStatusLink');
+
+                // Actualiza el mensaje del modal y el enlace del botón de confirmación
+                if (action === "toggle") {
+                    const newStatus = this.querySelector('i').classList.contains('fa-unlock') ? 'lock' : 'unlock';
+                    const actionText = newStatus === 'lock' ? 'desactivar' : 'activar';
+                    modalMessage.textContent = `¿Está seguro que desea ${actionText} este usuario?`;
+                    changeStatusLink.setAttribute("href", `@Url.Action("ChangeStatus")/${userId}`);
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,53 @@
+﻿@using InternetBanking.Core.Application.Dtos.Account
+@using InternetBanking.Core.Application.Helpers
+@using Microsoft.AspNetCore.Http
+@using InternetBanking.Core.Application.ViewModels.Beneficiary;
+@model List<BeneficiaryViewModel>
+
+<div class="container px-4 py-1 mb-3">
+<hr />
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <h2>Beneficiarios</h2>
+        <form method="post" asp-action="Create" asp-controller="Beneficiaries" class="d-flex col-sm-4">
+            <div class="col-auto me-2">
+                <input class="form-control" type="number" placeholder="Account Number" />
+            </div>
+            <div class="col-auto">
+                <input type="submit" value="Añadir" class="btn btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+
+<div class="row">
+    <table class="table table-dark table-striped table-hove text-center mb-3 mt-3">
+            <thead class="text-center">
+            <tr>
+                <th>
+                    Propietario
+                </th>
+                <th>
+                    Numero de cuenta
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+                    <tr class="tr-success">
+                        <td>
+                            Jane Doe
+                        </td>
+                        <td>
+                            38884342
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary">Transferir</a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" class="btn btn-outline-danger" onclick="return confirm('Estas seguro que quieres borrar este beneficiario?')">Borrar</a>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</div>
+</div>

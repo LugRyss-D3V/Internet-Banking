@@ -1,0 +1,93 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Home;
+
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Admin ";
+}
+
+<div class="p-3 mb-3">
+    <div class="row">
+        <div class="mx-auto">
+            <div class="container pt-4 p-3 bg-dark rounded-3">
+                <div class="d-flex mb-3 text-dark">
+                    <h1 class="text-white">Dashboard</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container px-4 py-1">
+    <div class="row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Transacciones Hoy</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.TransactionsToday</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Total Transacciones</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.TransactionsTotal</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Pagos Hoy</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.PaymentsToday</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Total Pagos</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.PaymentsTotal</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Clientes Activos</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.ActiveClients</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Productos Asginados</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.AssignedProducts</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-50 mb-3">
+            <div class="card text-center">
+                <div class="card-header d-flex align-items-center mt-2">
+                    <h5>Clientes Inactivos</h5>
+                </div>
+                <div class="card-body d-flex align-items-center mt-2 justify-content-center">
+                    <p class="card-text fs-5 p-3">@Model.DeactiveClients</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

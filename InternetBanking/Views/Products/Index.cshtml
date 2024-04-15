@@ -1,0 +1,285 @@
+﻿@using InternetBanking.Core.Application.Enums;
+@using InternetBanking.Core.Application.ViewModels.Products.Home;
+
+@model ProductsViewModel
+
+@{
+    ViewData["Title"] = "Products ";
+}
+
+<div class="p-3">
+    <div class="row">
+        <div class="mx-auto">
+            <div class="container pt-4 p-3 bg-dark rounded-3">
+                <div class="d-flex mb-3 align-items-center justify-content-between text-dark">
+                    <h1 class="text-white">Productos Bancarios</h1>
+                    <span class="fs-4 text-white">@Model.User.FirstName @Model.User.LastName, @Model.User.PersonalId &nbsp; &nbsp; &nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="px-2 py-2 my-2 text-center">
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-2 text-dark">
+            Aquí puedes explorar y administrar las cuentas financieras. Puede visualizar las cuentas de ahorro, solicitar tarjetas de crédito y préstamos.</p>
+    </div>
+</div>
+
+<!-- SavingAccount Container -->
+<div class="container px-4 py-1 mb-3">
+    <hr />
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <h2 class="mt-2 mb-2">Cuentas de Ahorro</h2>
+        <button type="button" class="btn btn-lg btn-outline-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#accountSavingModal">
+            Nueva Cuenta
+        </button>
+    </div>
+    <hr />
+
+    @if (Model.SavingAccounts.Count() == 0)
+    {
+        <h4>No tiene cuentas de ahorro</h4>
+    }
+    else
+    {
+
+        <div class="row">
+            <table class="table table-dark table-striped table-hove text-center mb-3 mt-3">
+                <thead>
+                    <tr>
+                        <th>
+                            No.
+                        </th>
+                        <th>
+                            Monto disponible
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var account in Model.SavingAccounts)
+                    {
+                    <tr>
+                        <td>
+                            @account.ProductId
+                        </td>
+                        <td>
+                            RD @account.Cuantity.ToString("C", new System.Globalization.CultureInfo("es-DO"))
+                        </td>
+                        <td>
+                                @if (account.SavingAccountType != (int)SavingAccountType.Primary)
+                                {
+                                    <a asp-controller="Products" asp-action="Delete" asp-route-id="@account.ProductId" class="btn btn-danger col-8">
+                                        Eliminar
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-danger col-8" disabled>Eliminar</button>
+                                }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<!-- CreditCard Container -->
+<div class="container px-4 py-1 mb-3">
+    <hr />
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <h2 class="mt-2 mb-2">Tarjetas de Credito</h2>
+        <button type="button" class="btn btn-lg btn-outline-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#creditCardModal">
+            Nueva Tarjeta
+        </button>
+    </div>
+    <hr />
+
+    @if (Model.CreditCards.Count() == 0)
+    {
+        <h4>No tiene tarjetas de credito</h4>
+    }
+    else
+    {
+        <div class="row">
+            <table class="table table-dark table-striped table-hove text-center mb-3 mt-3">
+                <thead>
+                    <tr>
+                        <th>
+                            No.
+                        </th>
+                        <th>
+                            Monto a pagar
+                        </th>
+                        <th>
+                            Limite
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var creditCard in Model.CreditCards)
+                    {
+                        <tr>
+                            <td>
+                                @creditCard.ProductId
+                            </td>
+                            <td>
+                                RD @creditCard.Cuantity.ToString("C", new System.Globalization.CultureInfo("es-DO"))
+                            </td>
+                            <td>
+                                RD @creditCard.Limit.ToString("C", new System.Globalization.CultureInfo("es-DO"))
+                            </td>
+                            <td>
+                                <a asp-for="Delete" asp-route-id="@creditCard.ProductId" class="btn btn-danger col-8">
+                                Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<!-- Loan Container -->
+<div class="container px-4 py-1 mb-3">
+    <hr />
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <h2 class="mt-2 mb-2">Prestamos</h2>
+        <button type="button" class="btn btn-lg btn-outline-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#loanModal">
+            Nueva Prestamo
+        </button>
+    </div>
+    <hr />
+
+    @if (Model.Loans.Count() == 0)
+    {
+        <h4>No tiene prestamos</h4>
+    }
+    else
+    {
+        <div class="row">
+            <table class="table table-dark table-striped table-hove text-center mb-3 mt-3">
+                <thead>
+                    <tr>
+                        <th>
+                            No.
+                        </th>
+                        <th>
+                            Monto a pagar
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var loan in Model.Loans)
+                    {
+                        <tr>
+                            <td>
+                                @loan.ProductId
+                            </td>
+                            <td>
+                                RD @loan.Cuantity.ToString("C", new System.Globalization.CultureInfo("es-DO"))
+                            </td>
+                            <td>
+                                <a asp-for="Delete" asp-route-id="@loan.ProductId" class="btn btn-danger col-8">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<!-- Saving Account Modal -->
+<div class="modal fade" id="accountSavingModal" tabindex="-1" aria-labelledby="accountSavingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="accountSavingModalLabel">Nueva Cuenta de Ahorros</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SavingAccount.UserId" value="@Model.User.Id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="SavingAccount.Cuantity" class="form-label">Monto inicial</label>
+                        <input type="number" step="0.01" class="form-control" asp-for="SavingAccount.Cuantity" placeholder="Ingrese el monto inicial">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Modal -->
+<div class="modal fade" id="loanModal" tabindex="-1" aria-labelledby="loanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loanModalLabel">Nuevo Prestamo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Loan.UserId" value="@Model.User.Id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Loan.Cuantity" class="form-label">Monto inicial</label>
+                        <input type="number" step="0.01" class="form-control" asp-for="Loan.Cuantity" placeholder="Ingrese el monto">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    <button type="submit" class="btn btn-primary">Crear Prestamo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- CreditCard Modal -->
+<div class="modal fade" id="creditCardModal" tabindex="-1" aria-labelledby="creditCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="creditCardModalLabel">Nueva Tarjeta de Credito</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CreditCard.UserId" value="@Model.User.Id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="CreditCard.Limit" class="form-label">Monto inicial</label>
+                        <input type="number" step="0.01" class="form-control" asp-for="CreditCard.Limit" placeholder="Ingrese el limite de la tarjeta">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    <button type="submit" class="btn btn-primary">Crear Tarjeta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

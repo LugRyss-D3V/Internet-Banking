@@ -1,0 +1,59 @@
+﻿@using InternetBanking.Core.Application.ViewModels.Transaction;
+@model TransactionViewModel
+@{
+    ViewData["Title"] = "Pago a beneficiarios";
+}
+
+<main>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <section class="my-5">
+                            <h1 class="text-center text-black">Pago a beneficiarios</h1>
+                            <p class="lead text-black">Realiza un pago rápido y fácil a un beneficiario.</p>
+                        </section>
+
+                        <section class="my-5">
+                            <form action="/pay-beneficiary" method="post">
+                                <div class="mb-3">
+                                    <label for="beneficiary">Beneficiario</label>
+                                    <select class="form-control" id="beneficiary" name="beneficiary" required>
+                                        <option value="1">Juan Pérez</option>
+                                        <option value="2">María López</option>
+                                        <option value="3">José García</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label asp-for="Cuantity" class="form-label">Cantidad de dinero:</label>
+                                        <input asp-for="Cuantity" class="form-control">
+                                        <span asp-validation-for="Cuantity" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fromAccount">Cuenta de origen</label>
+                                    <select class="form-control" id="fromAccount" name="fromAccount" required>
+                                        <option value="1">1234567890</option>
+                                        <option value="2">9876543210</option>
+                                    </select>
+
+@*                                     <div>
+                                        <label asp-for="ProductoraID" class="form-label">ID de la Productora: </label>
+                                        <select asp-for="ProductoraID" class="form-select" id="ProductoraID">
+                                            <option value="">Seleccione nombre de productora</option>
+                                        </select>
+                                        <span asp-validation-for="ProductoraID" class="text-bg-danger">  </span>
+                                    </div> *@
+                                </div>
+                                <button type="submit" class="btn btn-primary">Pagar</button>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

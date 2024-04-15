@@ -1,0 +1,119 @@
+﻿@model InternetBanking.Core.Application.ViewModels.User.RegisterViewModel
+@using InternetBanking.Core.Application.Enums
+
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="p-3">
+    <div class="row">
+        <div class="mx-auto">
+            <div class="container pt-4 p-3 bg-dark rounded-3">
+                <div class="d-flex justify-content-between mb-3 text-dark">
+                    <h1 class="text-white">Usuarios</h1>
+                    <a asp-controller="User" asp-action="Index" class="btn btn-lg btn-outline-primary mt-2 text-white mt-2 mb-2">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="px-2 py-2 my-2 text-center">
+    <div class="col-lg-8 mx-auto">
+        <h3 class="display-5 fw-bold text-body-emphasis">
+            Aquí puedes registrar un nuevo usuario.
+        </h3>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form asp-action="Register" class="mt-4 p-4 col-6 bg-light rounded-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.HasError)
+            {
+                <div class="alert alert-danger alert-dismissible fade show text-black" role="alert">
+                    <p>@Model.Error</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-6">
+                    <label asp-for="FirstName" class="form-label">Nombre</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Ej: Juan" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="LastName" class="form-label">Apellido</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Ej: Pérez" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PersonalId" class="form-label">Cédula</label>
+                <input asp-for="PersonalId" class="form-control" placeholder="Ej: 123456789" />
+                <span asp-validation-for="PersonalId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Correo Electrónico</label>
+                <input asp-for="Email" class="form-control" placeholder="Ej: ejemplo@dominio.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label">Nombre de Usuario</label>
+                <input asp-for="UserName" class="form-control" placeholder="Ej: usuario123" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Contraseña</label>
+                <input asp-for="Password" class="form-control" placeholder="Ej: TuContraseña123" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña</label>
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Ej: TuContraseña123" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TypeUser" class="form-label">Tipo de Usuario</label>
+                <select asp-for="TypeUser" class="form-select" id="userType" onchange="showHideQuantityField()">
+                    <option class="text-dark" value="@Roles.Administrator.ToString()">Administrador</option>
+                    <option class="text-dark" value="@Roles.Client.ToString()">Cliente</option>
+                </select>
+            </div>
+
+            <div class="mb-3" id="quantityField" style="display: none;">
+                <label asp-for="Amount" class="form-label">Monto Inicial</label>
+                <input type="number" asp-for="Amount" step="0.01" class="form-control" id="cantidad" placeholder="Ej: 100.00" />
+            </div>
+
+            <div class="mb-3 mt-2">
+                <input type="submit" value="Registrar" asp-action="Register" class="btn btn-lg btn-primary w-100">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showHideQuantityField() {
+        var userType = document.getElementById("userType").value;
+        var quantityField = document.getElementById("quantityField");
+
+        if (userType === "Client") {
+            quantityField.style.display = "block";
+        } else {
+            quantityField.style.display = "none";
+        }
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

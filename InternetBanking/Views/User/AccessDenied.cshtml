@@ -1,0 +1,33 @@
+﻿@using InternetBanking.Core.Application.Dtos.Account.Response;
+@using InternetBanking.Core.Application.ViewModels.User;
+@using InternetBanking.Core.Application.Helpers;
+@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+}
+
+@model string
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="text-center">
+        <h1 class="text-black">Acceso Denegado</h1>
+        <p class="text-black">No tienes permiso para acceder a esta página.</p>
+        @if (User.Roles.Any(role => role == "Administrator"))
+        {
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                <span>Regresar al inicio</span>
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Client" asp-action="Index" class="btn btn-primary">
+                <span>Regresar al inicio</span>
+            </a>
+        }
+    </div>
+</div>

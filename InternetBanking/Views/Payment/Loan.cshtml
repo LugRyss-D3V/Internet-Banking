@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Pago de préstamo";
+}
+
+<main>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <section class="my-5">
+                            <h1 class="text-center text-black">Pago de préstamo</h1>
+                            <p class="lead text-black">Realiza un pago rápido y fácil a tu préstamo.</p>
+                        </section>
+
+                        <section class="my-5">
+                            <form action="/pay" method="post">
+                                <div class="mb-3">
+                                    <label for="loan">Préstamo</label>
+                                    <select class="form-control" id="loan" name="loan" required>
+                                        <option data-text="Préstamo personal" value="1">Préstamo personal</option>
+                                        <option data-text="Préstamo de automóvil" value="2">Préstamo de automóvil</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fromAccount">Cuenta de origen</label>
+                                    <select class="form-control" id="fromAccount" name="fromAccount" required>
+                                        <option data-text="1234567890" value="1">1234567890</option>
+                                        <option data-text="9876543210" value="2">9876543210</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="amount">Monto</label>
+                                    <input type="number" class="form-control" id="amount" name="amount" placeholder="Ingrese el monto" required>
+                                </div>
+                                <div class="my-5">
+                                    <p>
+                                        El monto del préstamo es de <strong>\$10,000</strong>.
+                                    </p>
+                                    <p>
+                                        El monto actual de la deuda es de <strong>\$5,000</strong>.
+                                    </p>
+                                    <p>
+                                        Si ingresa un monto de <strong>\$2,000</strong>, se pagará el <strong>20%</strong> de la deuda.
+                                    </p>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Pagar</button>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
